@@ -91,4 +91,24 @@ public class Hand {
         }
     }
 
+    /**
+     * 手札にあるカードを文字列で表す
+     * objectクラスのtoStringメソッドをオーバーライドしたメソッド
+     * 
+     * @return 手札にあるカードの文字列表現
+     */
+    public String toString() {
+        StringBuffer string = new StringBuffer();
+
+        int size = hand_.size();
+        if (size > 0) {
+            for (int index = 0; index < size; index++) {
+                Card card = hand_.get(index);
+                string.append(card);
+                string.append(" ");
+            }
+        }
+        return string.toString();
+    }
+
 }
