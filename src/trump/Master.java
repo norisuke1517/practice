@@ -1,7 +1,9 @@
+package trump;
+
 import java.util.ArrayList;
 
 /**
- * ババ抜きの進行役を表すクラス
+ * 進行役を表すクラス
  */
 public class Master {
     // プレイヤーのリスト
@@ -24,7 +26,7 @@ public class Master {
 
         for (int index = 0; index < numberOfCards; index++) {
             // カードから1枚引く
-            Card card = cards.pickCard();
+            Card card = cards.pickCard(0);
 
             // 各プレイヤーに順番に配る
             Player player = (Player) players_.get(index % numberOfPlayers);
@@ -36,7 +38,7 @@ public class Master {
      * ゲームを開始する
      */
     public void startGame() {
-        System.out.println("【ババ抜きを開始します】");
+        System.out.println("【ゲームを開始します】");
 
         // プレイヤーの人数を取得する
         for (int count = 0; players_.size() > 1; count++) {
@@ -55,7 +57,7 @@ public class Master {
         }
 
         // プレイヤーが上がって残り1名になるとループを抜ける
-        System.out.println("【ババ抜きを終了しました】");
+        System.out.println("【ゲームを終了しました】");
     }
 
     /**
@@ -66,22 +68,32 @@ public class Master {
         System.out.println(winner + "さんが上がりました！");
 
         // 上がったプレイヤーをリストから外す
-        players_.remove(winner);
-
-        // 残りプレイヤーが一人になったとき敗者を表示
-        if (players_.size() == 1) {
-            Player looser = (Player) players_.get(0);
-            System.out.println(looser + "さんの負けです！");
-        }
+        deregisterPlayer(winner);
     }
 
     /**
-     * ゲームに参加するプレイヤーを決める
+     * ゲームに参加するプレイヤーを登録
      * 
      * @param player
      */
     public void registerPlayer(Player player) {
         // リストに参加する参加者を追加する
         players_.add(player);
+    }
+
+    /**
+     * ゲームに参加するプレイヤーを登録から削除する
+     * 
+     * @param player
+     */
+    public void deregisterPlayer(Player player) {
+        // リストから参加者を削除する
+        players_.remove(players_.indexOf(player));
+
+        // 残りプレイヤーが1人になったときは敗者を表示
+        if (players_.size() == 1) {
+            Player loser = (Player) players_.get(0);
+            System.out.println(" " + loser + "さんの負けです");
+        }
     }
 }

@@ -1,3 +1,5 @@
+package trump;
+
 import java.util.ArrayList;
 
 /**
@@ -18,48 +20,39 @@ public class Hand {
     }
 
     /**
-     * カードを引く
+     * カードを見る
+     * positionは0からgetNumberOfCards()の範囲で指定すること
      * 
-     * @return 引かれたカード
+     * @param positionカードの位置
+     * @return positionで指定された位置のカード。範囲外の場合はnullで返す
      */
-    public Card pickCard() {
-        Card pickedCard = hand_.remove(0);
+    public Card lookCard(int position) {
+        Card lookingCard = null;
 
-        return pickedCard;
+        // 引数で指定された位置が妥当であるかチェック
+        if ((0 <= position) && (position < hand_.size())) {
+            lookingCard = (Card) hand_.get(position);
+        }
+
+        return lookingCard;
     }
 
     /**
-     * 同じ数のカードを探す
+     * カードを引く
+     * 引いたカードは手札から削除される
      * 
-     * @return 同じ数のカード
+     * @param position カードの位置
+     * @return positionで指定された位置のカード。範囲外の場合はnullで返す
      */
-    public Card[] findSameNumberCard() {
-        int numberOfCards = hand_.size();
-        Card[] sameCards = null;
+    public Card pickCard(int position) {
+        Card pickedCard = null;
 
-        // 手札が1枚以上の場合
-        if (numberOfCards > 0) {
-            // 最後に追加されたカードを取得する
-            int lastIndex = numberOfCards - 1;
-            Card lastAddedCard = (Card) hand_.get(lastIndex);
-
-            // 最後に追加されたカードの数字を取得する
-            int lastAddedCardNum = lastAddedCard.getNumber();
-
-            for (int index = 0; index < lastIndex; index++) {
-                Card card = (Card) hand_.get(index);
-                if (card.getNumber() == lastAddedCardNum) {
-                    // 最後に追加されたカードと同じカードが見つかった場合
-                    // 見つかった組み合わせをsameCardsに格納し、ループを抜ける
-                    sameCards = new Card[2];
-                    sameCards[0] = (Card) hand_.remove(lastIndex);
-                    sameCards[1] = (Card) hand_.remove(index);
-
-                    break;
-                }
-            }
+        // 引数で指定された位置が妥当であるかチェック
+        if ((0 <= position) && (position < hand_.size())) {
+            pickedCard = (Card) hand_.remove(position);
         }
-        return sameCards;
+
+        return pickedCard;
     }
 
     /*
@@ -108,6 +101,7 @@ public class Hand {
                 string.append(" ");
             }
         }
+
         return string.toString();
     }
 
